@@ -5,12 +5,12 @@ import { StyleSheet, TextInput } from "react-native";
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 
 export default function Index() {
-  const [interestRate, setInterestRate] = useState('0');
+  const [interestRate, setInterestRate] = useState('0.0275');
   const [payoffDate, setPayoffDate] = useState('Date Here');
 
-  const [balance, setBalance] = useState('0');
-  const [monthlyPayment, setMonthlyPayment] = useState('0');
-  const [escrowPayment, setEscrowPayment] = useState('0');
+  const [balance, setBalance] = useState('376387.63');
+  const [monthlyPayment, setMonthlyPayment] = useState('3000');
+  const [escrowPayment, setEscrowPayment] = useState('433.66');
 
   const styles = StyleSheet.create({
     input: {
@@ -28,6 +28,7 @@ export default function Index() {
     let runningBalance = Number(balance);
 
     while(runningBalance > 0) {
+      // console.log("RUNNING BALANCE: ", runningBalance);
       const interestPayment = Number(runningBalance) * Number(periodicInterest);
       const principalPayment = Number(mortgagePayment) - interestPayment;
       runningBalance = runningBalance - principalPayment;
@@ -35,9 +36,9 @@ export default function Index() {
     }
     
     const currentDate = new Date();
-    currentDate.setMonth(currentDate.getDate() + (paymentNumber - 1));
-
-    setPayoffDate(currentDate.toDateString());
+    currentDate.setMonth(currentDate.getMonth() + (paymentNumber - 1));
+    const fullMonthName = currentDate.toLocaleString('default', { month: 'long' });
+    setPayoffDate(fullMonthName + " " + currentDate.getFullYear());
     
   }
 
